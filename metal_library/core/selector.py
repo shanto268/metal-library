@@ -7,7 +7,7 @@ from metal_library.core.sweeper_helperfunctions import create_dict_list
 
 class Selector:
 
-    __supported_metrics__ = ['Euclidian', 'Manhattan', 'Chebyshev']
+    __supported_metrics__ = ['Euclidean', 'Manhattan', 'Chebyshev', 'Custom']
     __supported_estimation_methods__ = ['Interpolation']
 
     def __init__(self, reader):
@@ -60,10 +60,29 @@ class Selector:
         
         return False
 
+
+    def get_geometry_from_index(self, index: int) -> dict:
+        """
+        Get associated QComponent.options dictionary from index num.
+
+        Args:
+            index (int): Index of associated geometry.
+
+        Returns:
+            options (dict): Associated dictionary for QComponent.options
+        """
+        df = self.geometry.iloc[index]
+        keys = list(df.keys())
+        values = [list(df.values)]
+        
+        options = create_dict_list(keys=keys, values=values)[0]
+
+        return options
+
     def find_closest(self,
-                     target_params: dict, 
-                     num_top: int, 
-                     metric: str = 'Euclidian',
+                     target_params: dict,
+                     num_top: int,
+                     metric: str = 'Euclidean',
                      display: bool = True):
         """
         Main functionality. Select the closest presimulated geometry for a set of characteristics.
@@ -72,7 +91,7 @@ class Selector:
             target_params (dict): A dictionary where the keys are the column names in `self.characteristic`,
                                   and the values are the target values to compare against.
             num_top (int): The number of rows with the smallest Euclidean distances to return.
-            metric (str, optional): Metric to determine closeness. Defaults to "Euclidian". 
+            metric (str, optional): Metric to determine closeness. Defaults to "Euclidean". 
                                     Must choose from `self.__supported_metrics__`.
             display (boo, optional): Print out results? Defaults to True.
 
@@ -94,12 +113,16 @@ class Selector:
 
         ### Setup
         # Choose from supported metrics, set it to var `find_index`
-        if (metric == 'Euclidian'):
-            find_index = self._find_index_Euclidian
+        if (metric == 'Euclidean'):
+            find_index = self._find_index_Euclidean
         elif (metric == 'Manhattan'):
             find_index = self._find_index_Manhattan
         elif (metric == 'Chebyshev'):
             find_index = self._find_index_Chebyshev
+        elif (metric == 'Weighted Euclidean'):
+            find_index = self._find_index_Weighted_Euclidean
+        elif (metric == 'Custom'):
+            find_index = self._find_index_Custom_Metric
 
         ### Main Logic
         indexes_smallest = find_index(target_params=target_params, num_top=num_top)
@@ -130,24 +153,70 @@ class Selector:
 
         return indexes_smallest, best_characteristics, best_geometries
 
-    def get_geometry_from_index(self, index: int) -> dict:
+    def _find_index_Custom_Metric(self, target_params: dict, num_top: int, custom_metric_func):
         """
-        Get associated QComponent.options dictionary from index num.
-
-        Args:
-            index (int): Index of associated geometry.
-
+        Calculates the custom metric between each row in `self.characteristic` and a set of target parameters.
+        It then returns the indexes of the 'num_top' rows with the smallest custom metric values.
+        
+        Parameters:
+            target_params (dict): Dictionary of target Hamiltonian parameters.
+            num_top (int): Number of top matches to return.
+            custom_metric_func (callable): User-defined custom metric function. 
+                                           The function should take two dictionaries as arguments and return a float.
+            
         Returns:
-            options (dict): Associated dictionary for QComponent.options
-        
+            pd.Index: Indices of the 'num_top' closest matches based on the custom metric.
+            
+        Example Usage:
+            To use a custom Manhattan distance metric, define the function as follows:
+            
+            def manhattan_distance(target, simulated):
+                return sum(abs(target[key] - simulated.get(key, 0)) for key in target)
+                
+            Then, call `_find_index_custom_metric` with this function:
+            
+            closest_indices = selector._find_index_custom_metric(target_params, 2, manhattan_distance)
         """
-        df = self.geometry.iloc[index]
-        keys = list(df.keys())
-        values = [list(df.values)]
         
-        options = create_dict_list(keys=keys, values=values)[0]
+        distances = []
+        for index, row in self.characteristic.iterrows():
+            distance = custom_metric_func(target_params, row.to_dict())
+            distances.append((index, distance))
+        
+        # Sort by distance and return the indices of the 'num_top' closest matches
+        closest_indices = sorted(distances, key=lambda x: x[1])[:num_top]
+        return pd.Index([index for index, _ in closest_indices])
 
-        return options
+
+    def _find_index_Weighted_Euclidean(self, target_params: dict, num_top: int, weights: dict = None):
+        """
+        Calculates the weighted Euclidean distance between each row in `self.characteristic` and a set of target parameters.
+        It then returns the indexes of the 'num_top' rows with the smallest weighted Euclidean distances.
+        
+        Parameters:
+            target_params (dict): Dictionary of target Hamiltonian parameters.
+            num_top (int): Number of top matches to return.
+            weights (dict, optional): Dictionary of weights for each parameter. Defaults to 1 for all if not provided.
+            
+        Returns:
+            pd.Index: Indices of the 'num_top' closest matches based on weighted Euclidean distance.
+        """
+        if weights is None:
+            weights = {key: 1 for key in target_params.keys()}
+        
+        distances = []
+        for index, row in self.characteristic.iterrows():
+            distance = 0
+            for param, target_value in target_params.items():
+                simulated_value = row.get(param, 0)
+                weight = weights.get(param, 1)
+                distance += weight * ((target_value - simulated_value) ** 2) / target_value
+                
+            distances.append((index, distance))
+        
+        # Sort by distance and return the indices of the 'num_top' closest matches
+        closest_indices = sorted(distances, key=lambda x: x[1])[:num_top]
+        return pd.Index([index for index, _ in closest_indices])
     
     def get_characteristic_from_index(self, index: int) -> dict:
         """
@@ -168,28 +237,27 @@ class Selector:
 
         return options
 
-    def _find_index_Euclidian(self, target_params: dict, num_top: int):
+    def _find_index_Euclidean(self, target_params: dict, num_top: int):
         """
         Calculates the Euclidean distance between each row in `self.characteristic` and a set of target parameters.
         It then returns the indexes of the 'num_top' rows with the smallest Euclidean distances.
-        The Euclidean distance is calculated as: sqrt(sum_i (x_i - x_{target})^2),
+        The Euclidean distance here is calculated as: sqrt(sum_i (x_i - x_{target})^2 / x_{target}),
         where x_i are the values in the DataFrame and x_{target} are the target parameters.
 
         Args:
             target_params (dict): A dictionary where the keys are the column names in `self.characteristic`,
                                   and the values are the target values to compare against.
-                                
             num_top (int): The number of rows with the smallest Euclidean distances to return.
 
         Returns:
-            indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest Euclidian distances to the target parameters.
+            indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest Euclidean distances to the target parameters.
         """
         # Start with an array of zeros with the same length as the DataFrame
         distances = np.zeros(self.characteristic.shape[0])
         
-        # Euclidian Metric
+        # Euclidean Metric
         for column, target_value in target_params.items():
-            distances += (self.characteristic[column] - target_value)**2
+            distances += ((self.characteristic[column] - target_value)**2 / target_value)
         distances = np.sqrt(distances)
 
         # Return the indexes of the rows with the smallest distances
@@ -255,9 +323,3 @@ class Selector:
         indexes_smallest =  distances.nsmallest(num_top).index
 
         return indexes_smallest
-
-
-
-        
-        
-        

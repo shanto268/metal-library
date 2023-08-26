@@ -57,7 +57,7 @@ class Reader:
         blurbs = [metadata['blurb'] for _, metadata in self.metadata["component-types"].items()]
 
         print(tabulate(np.array([types_of_setups,blurbs]).T,
-                       headers=['Supported Component Type', 'Blurb'], 
+                       headers=['Supported Component Type', 'Blurb'],
                        tablefmt="fancy_grid"))
 
         return types_of_setups
