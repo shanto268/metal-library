@@ -7,7 +7,7 @@ from metal_library.core.sweeper_helperfunctions import create_dict_list
 
 class Selector:
 
-    __supported_metrics__ = ['Euclidean', 'Manhattan', 'Chebyshev', 'Custom']
+    __supported_metrics__ = ['Euclidean', 'Manhattan', 'Chebyshev', 'Weighted Euclidean' , 'Custom']
     __supported_estimation_methods__ = ['Interpolation']
 
     def __init__(self, reader):
@@ -16,6 +16,7 @@ class Selector:
         self.component_type = None
         self.geometry = None
         self.characteristic = None
+        self.custom_metric_func = None
         
         if isinstance(reader, Reader):
             self.reader = reader
@@ -153,7 +154,7 @@ class Selector:
 
         return indexes_smallest, best_characteristics, best_geometries
 
-    def _find_index_Custom_Metric(self, target_params: dict, num_top: int, custom_metric_func):
+    def _find_index_Custom_Metric(self, target_params: dict, num_top: int):
         """
         Calculates the custom metric between each row in `self.characteristic` and a set of target parameters.
         It then returns the indexes of the 'num_top' rows with the smallest custom metric values.
@@ -177,6 +178,10 @@ class Selector:
             
             closest_indices = selector._find_index_custom_metric(target_params, 2, manhattan_distance)
         """
+        if self.custom_metric_func is None:
+            raise ValueError('Must provide a custom metric function.')
+        else:
+            custom_metric_func = self.custom_metric_func
         
         distances = []
         for index, row in self.characteristic.iterrows():

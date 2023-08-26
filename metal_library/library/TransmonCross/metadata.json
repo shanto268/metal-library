@@ -39,25 +39,25 @@
                 "column_name": "Cavity_Frequency_GHz",
                 "blurb": "Cavity Resonant Freq (Linear MHz)",
                 "units": "GHz",
-                "latex_symbol": "\f_{c}"
+                "latex_symbol": "f_{c}"
             },
             {
                 "column_name": "Coupling_Strength_MHz",
                 "blurb": "Coupling between qubit and cavity (Linear MHz)",
                 "units": "MHz",
-                "latex_symbo,l": "g_{q,c}"
+                "latex_symbol": "g_{q,c}"
             },
             {
                 "column_name": "wavelength",
                 "blurb": "Lambda/2 vs Lambda/4 wavelength of cavity.",
                 "units": "str",
-                "latex_symbo,l": ""
+                "latex_symbol": ""
             },
             {
                 "column_name": "feedline_coupling",
                 "blurb": "Capacitive vs Inductive coupling",
                 "units": "str",
-                "latex_symbo,l": ""
+                "latex_symbol": ""
             }
         ]
        },
@@ -89,7 +89,7 @@
         "experiment": {
             "authors": [
                 {
-                    "name": ["Clark Miyamoto", "Andre Kuo"],
+                    "name": ["Clark Miyamoto", "Andre Kuo", "Sadman Ahmed Shanto"],
                     "pi": ["Eli Levenson-Falk"],
                     "institution": ["University of Southern California, Physics Department"],
                     "contribution": [
@@ -101,7 +101,7 @@
         "simulation": {
             "authors": [
                 {
-                    "name": ["Clark Miyamoto", "Andre Kuo"],
+                    "name": ["Clark Miyamoto", "Andre Kuo", "Sadman Ahmed Shanto"],
                     "pi": ["Eli Levenson-Falk"],
                     "institution": ["University of Southern California, Physics Department"],
                     "contribution": {

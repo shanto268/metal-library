@@ -2,9 +2,9 @@
 
 - [x] implement Weighted Euclidean Metric
 - [x] implement user custom metric
-- [ ] test Weighted Euclidean and user custom metric
-- [ ] test `QubitCavity.csv` data with `Reader` class
+- [x] test Weighted Euclidean and user custom metric
 - [ ] implement interpolation logic
+- [ ] test `QubitCavity.csv` data with `Reader` class
 - [ ] implement simulator functionality
 - [ ] implement .gds creation
 - [ ] transition to a sql db from .csv
@@ -15,12 +15,26 @@
 - [ ] run QubitDriveline sweeps
 - [ ] modular method to run scattering sim from `design` object recreated from QubitCavity.csv
 - [ ] run Scattering sims on QubitCavity
+- [ ] update QubitCavity metadata once kappa is done
 
 # Documentation work:
 
 - [x] add new metrics to the tutorial
 - [ ] generate doc site
 
+# Deployment work:
+
+- [ ] clean install process write down
+- [ ] packagify
+- [ ] readme update
+
+
 # Backburner:
 
 - [ ] Sweeper code
+
+---
+
+# Record:
+
+- [x] updated metadata.json and tested metric
