@@ -1,24 +1,31 @@
-name: Docs
-on: [push, pull_request, workflow_dispatch]
-permissions:
-    contents: write
+name: Build and Deploy Documentation
+on:
+  push:
+    branches:
+      - main  # Set a branch name to trigger the workflow
+
 jobs:
-  docs:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-      - name: Install dependencies
-        run: |
-          pip install sphinx sphinx_rtd_theme
-      - name: Sphinx build
-        run: |
-          sphinx-build docs _build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          publish_branch: gh-pages
+          python-version: '3.x'
+
+      - name: Install Sphinx and Theme
+        run: pip install sphinx sphinx_rtd_theme
+
+      - name: Build Sphinx Docs
+        run: sphinx-build -b html docs/ docs/_build/html  # It's docs/ because conf.py is in docs
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'  # This step will only run when changes are pushed to the main branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
-          force_orphan: true
+          publish_dir: docs/_build/html  # This should match the build directory specified in the Sphinx build step
