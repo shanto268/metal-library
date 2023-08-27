@@ -1,8 +1,7 @@
 name: Build and Deploy Documentation
-on:
-  push:
-    branches:
-      - main  # Set a branch name to trigger the workflow
+on: [push, pull_request, workflow_dispatch]
+permissions:
+    contents: write
 
 jobs:
   build:
@@ -14,8 +13,6 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
 
       - name: Install Sphinx and Theme
         run: pip install sphinx sphinx_rtd_theme
@@ -23,7 +20,7 @@ jobs:
       - name: Build Sphinx Docs
         run: sphinx-build -b html docs/ docs/_build/html  # It's docs/ because conf.py is in docs
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
