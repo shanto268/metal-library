@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import warnings
 
 from metal_library import logging
 from metal_library.core.reader import Reader
@@ -41,7 +42,7 @@ class Selector:
 
     def _outside_bounds(self, df: pd.DataFrame, params: dict, display=True) -> bool:
         """
-        Check to see if entered parameters are outside the bounds of a dataframe
+        Check if entered parameters are outside the bounds of a dataframe.
 
         Args:
             df (pd.DataFrame): Dataframe to give warning.
@@ -50,17 +51,32 @@ class Selector:
         Returns:
             bool: True if any value is outside of bounds. False if all values are inside bounds.
         """
+        outside_bounds = False
+        filtered_df = df.copy()
+
         for param, value in params.items():
-            if param in df.columns:
+            if param not in df.columns:
+                raise ValueError(f"{param} is not a column in dataframe: {df}")
+
+            if isinstance(value, (int, float)):
                 if value < df[param].min() or value > df[param].max():
                     if display:
-                        logging.info(f"NOTE TO USER: the value {value} for {param} is outside the bounds of our library.")
-                        logging.info("If you find a geometry which corresponds to these values, please consider contributing it! 😁🙏")
-                    return True
+                        logging.info(f"\033[1mNOTE TO USER:\033[0m the value \033[1m{value} for {param}\033[0m is outside the bounds of our library.\nIf you find a geometry which corresponds to these values, please consider contributing it! 😁🙏\n")
+                    outside_bounds = True
+
+            elif isinstance(value, str):
+                filtered_df = filtered_df[filtered_df[param] == value]
+
             else:
-                raise ValueError(f"{param} is not a column in dataframe: {df}")
-        
-        return False
+                raise ValueError(f"Unsupported type {type(value)} for parameter {param}")
+
+        if filtered_df.empty:
+            categorical_params = {key: value for key, value in params.items() if isinstance(value, str)}
+            if display and categorical_params:
+                logging.info(f"\033[1mNOTE TO USER:\033[0m There are no geometries with the specified categorical parameters - \033[1m{categorical_params}\033[0m.\nIf you find a geometry which corresponds to these values, please consider contributing it! 😁🙏\n")
+            outside_bounds = True
+
+        return outside_bounds
 
 
     def get_geometry_from_index(self, index: int) -> dict:
@@ -183,9 +199,15 @@ class Selector:
             raise ValueError('Must provide a custom metric function.')
         else:
             custom_metric_func = self.custom_metric_func
-        
+
+        # Filter DataFrame based on categorical parameters
+        categorical_params = {key: value for key, value in target_params.items() if isinstance(value, str)}
+        filtered_df = self.characteristic
+        for column, value in categorical_params.items():
+            filtered_df = filtered_df[filtered_df[column] == value]
+
         distances = []
-        for index, row in self.characteristic.iterrows():
+        for index, row in filtered_df.iterrows():
             distance = custom_metric_func(target_params, row.to_dict())
             distances.append((index, distance))
         
@@ -209,16 +231,23 @@ class Selector:
         """
         if self.metric_weights is None:
             self.metric_weights = {key: 1 for key in target_params.keys()}
+            logging.info(f"\033[1mNOTE TO USER:\033[0m No metric weights provided. Using default weights of 1 for all parameters.")
 
+        # Filter DataFrame based on categorical parameters
+        categorical_params = {key: value for key, value in target_params.items() if isinstance(value, str)}
+        filtered_df = self.characteristic
+        for column, value in categorical_params.items():
+            filtered_df = filtered_df[filtered_df[column] == value]
         
         distances = []
-        for index, row in self.characteristic.iterrows():
+        for index, row in filtered_df.iterrows():
             distance = 0
             for param, target_value in target_params.items():
-                simulated_value = row.get(param, 0)
-                weight = self.metric_weights.get(param, 1)
-                distance += weight * ((target_value - simulated_value) ** 2) / target_value
-                
+                if isinstance(target_value, (int, float)):
+                    simulated_value = row.get(param, 0)
+                    weight = self.metric_weights.get(param, 1)
+                    distance += weight * ((target_value - simulated_value) ** 2) / target_value
+                    
             distances.append((index, distance))
         
         # Sort by distance and return the indices of the 'num_top' closest matches
@@ -259,19 +288,29 @@ class Selector:
         Returns:
             indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest Euclidean distances to the target parameters.
         """
-        # Start with an array of zeros with the same length as the DataFrame
-        distances = np.zeros(self.characteristic.shape[0])
+        # Filter DataFrame based on categorical parameters
+        categorical_params = {key: value for key, value in target_params.items() if isinstance(value, str)}
+        filtered_df = self.characteristic
+        for column, value in categorical_params.items():
+            filtered_df = filtered_df[filtered_df[column] == value]
+
+        # Initialize distance array
+        distances = pd.Series(np.zeros(filtered_df.shape[0]), index=filtered_df.index)
+
+        # Extract numerical parameters for Euclidean metric
+        numerical_params = {key: value for key, value in target_params.items() if isinstance(value, (int, float))}
         
-        # Euclidean Metric
-        for column, target_value in target_params.items():
-            distances += ((self.characteristic[column] - target_value)**2 / target_value)
+        for column, target_value in numerical_params.items():
+            distances += ((filtered_df[column] - target_value)**2 / target_value)
+        
         distances = np.sqrt(distances)
 
-        # Return the indexes of the rows with the smallest distances
+        # Sort and return the top 'num_top' smallest distances
         distances.sort_values(inplace=True)
-        indexes_smallest =  distances.nsmallest(num_top).index
+        indexes_smallest = distances.nsmallest(num_top).index
 
         return indexes_smallest
+
 
     def _find_index_Manhattan(self, target_params: dict, num_top: int):
         """
@@ -289,12 +328,19 @@ class Selector:
         Returns:
             indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest Manhattan distances to the target parameters.
         """
-        # Start with an array of zeros with the same length as the DataFrame
-        distances = np.zeros(self.characteristic.shape[0])
-        
+        # Filter DataFrame based on categorical parameters
+        categorical_params = {key: value for key, value in target_params.items() if isinstance(value, str)}
+        filtered_df = self.characteristic
+        for column, value in categorical_params.items():
+            filtered_df = filtered_df[filtered_df[column] == value]
+
+        # Initialize distance array
+        distances = np.zeros(filtered_df.shape[0])
+
         # Manhattan Metric
         for column, target_value in target_params.items():
-            distances += np.abs(self.characteristic[column] - target_value)
+            if isinstance(target_value, (int, float)):
+                distances += np.abs(filtered_df[column] - target_value)
         
         # Return the indexes of the rows with the smallest distances
         distances.sort_values(inplace=True)
@@ -318,12 +364,19 @@ class Selector:
         Returns:
             indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest Chebyshev distances to the target parameters.
         """
-        # Initialize an array with a small value
-        distances = np.full(self.characteristic.shape[0], -np.inf)
-        
-        # Chebyshev metric
+        # Filter DataFrame based on categorical parameters
+        categorical_params = {key: value for key, value in target_params.items() if isinstance(value, str)}
+        filtered_df = self.characteristic
+        for column, value in categorical_params.items():
+            filtered_df = filtered_df[filtered_df[column] == value]
+
+        # Initialize distance array
+        distances = np.full(filtered_df.shape[0], -np.inf)
+
+        # Chebyshev Metric
         for column, target_value in target_params.items():
-            distances = np.maximum(distances, np.abs(self.characteristic[column] - target_value))
+            if isinstance(target_value, (int, float)):
+                distances = np.maximum(distances, np.abs(filtered_df[column] - target_value))
         
         # Return the indexes of the rows with the smallest distances
         distances.sort_values(inplace=True)

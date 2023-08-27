@@ -4,7 +4,9 @@
 - [x] implement user custom metric
 - [x] test Weighted Euclidean and user custom metric
 - [x] test `QubitCavity.csv` data with `Reader` class
+- [x] implement selector search for QubitCavity
 - [ ] implement interpolated search feature
+- [ ] robust creation of `design` in metal including custom component
 - [ ] implement and test simulator functionality
 - [ ] implement and test .gds creation
 - [ ] transition to a sql db from .csv
