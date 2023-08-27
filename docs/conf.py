@@ -1,4 +1,5 @@
 # -- Path setup --------------------------------------------------------------
+import metal_library
 import sphinx_rtd_theme  # Replace with your theme's Python package
 import os
 import sys
