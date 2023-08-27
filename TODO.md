@@ -3,10 +3,10 @@
 - [x] implement Weighted Euclidean Metric
 - [x] implement user custom metric
 - [x] test Weighted Euclidean and user custom metric
-- [ ] implement interpolation logic
-- [ ] test `QubitCavity.csv` data with `Reader` class
-- [ ] implement simulator functionality
-- [ ] implement .gds creation
+- [x] test `QubitCavity.csv` data with `Reader` class
+- [ ] implement interpolated search feature
+- [ ] implement and test simulator functionality
+- [ ] implement and test .gds creation
 - [ ] transition to a sql db from .csv
 - [ ] add contributer API info with push to `metadata.json`
 
@@ -20,6 +20,7 @@
 # Documentation work:
 
 - [x] add new metrics to the tutorial
+- [ ] update the tutorial with weighted metric example provided by Eli for QubitCavity
 - [ ] generate doc site
 
 # Deployment work:

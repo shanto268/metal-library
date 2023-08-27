@@ -17,6 +17,7 @@ class Selector:
         self.geometry = None
         self.characteristic = None
         self.custom_metric_func = None
+        self.metric_weights = None
         
         if isinstance(reader, Reader):
             self.reader = reader
@@ -193,7 +194,7 @@ class Selector:
         return pd.Index([index for index, _ in closest_indices])
 
 
-    def _find_index_Weighted_Euclidean(self, target_params: dict, num_top: int, weights: dict = None):
+    def _find_index_Weighted_Euclidean(self, target_params: dict, num_top: int):
         """
         Calculates the weighted Euclidean distance between each row in `self.characteristic` and a set of target parameters.
         It then returns the indexes of the 'num_top' rows with the smallest weighted Euclidean distances.
@@ -206,15 +207,16 @@ class Selector:
         Returns:
             pd.Index: Indices of the 'num_top' closest matches based on weighted Euclidean distance.
         """
-        if weights is None:
-            weights = {key: 1 for key in target_params.keys()}
+        if self.metric_weights is None:
+            self.metric_weights = {key: 1 for key in target_params.keys()}
+
         
         distances = []
         for index, row in self.characteristic.iterrows():
             distance = 0
             for param, target_value in target_params.items():
                 simulated_value = row.get(param, 0)
-                weight = weights.get(param, 1)
+                weight = self.metric_weights.get(param, 1)
                 distance += weight * ((target_value - simulated_value) ** 2) / target_value
                 
             distances.append((index, distance))
