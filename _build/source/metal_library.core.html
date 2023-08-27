@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>metal_library.core package &mdash; SQuADDS: A validated design database and simulation workflow for superconducting qubit design testing-0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2b251f6b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="metal_library.library package" href="metal_library.library.html" />
+    <link rel="prev" title="metal_library package" href="metal_library.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SQuADDS: A validated design database and simulation workflow for superconducting qubit design
+              <img src="../_static/lfl_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="metal_library.html">metal_library package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="metal_library.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">metal_library.core package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal-library-core-librarian-module">metal_library.core.librarian module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal-library-core-reader-module">metal_library.core.reader module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal-library-core-selector-module">metal_library.core.selector module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal-library-core-sweeper-module">metal_library.core.sweeper module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal-library-core-sweeper-helperfunctions-module">metal_library.core.sweeper_helperfunctions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="metal_library.library.html">metal_library.library package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metal_library.test.html">metal_library.test package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="metal_library.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">metal_library.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metal-library-core-librarian-module">metal_library.core.librarian module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian"><code class="docutils literal notranslate"><span class="pre">QLibrarian</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.append_csv"><code class="docutils literal notranslate"><span class="pre">QLibrarian.append_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.default_save_directory"><code class="docutils literal notranslate"><span class="pre">QLibrarian.default_save_directory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.export_csv"><code class="docutils literal notranslate"><span class="pre">QLibrarian.export_csv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.extract_keysvalues"><code class="docutils literal notranslate"><span class="pre">QLibrarian.extract_keysvalues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.from_dict"><code class="docutils literal notranslate"><span class="pre">QLibrarian.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.supported_datatypes"><code class="docutils literal notranslate"><span class="pre">QLibrarian.supported_datatypes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.librarian.QLibrarian.to_qoptions"><code class="docutils literal notranslate"><span class="pre">QLibrarian.to_qoptions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metal-library-core-reader-module">metal_library.core.reader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.reader.Reader"><code class="docutils literal notranslate"><span class="pre">Reader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.reader.Reader.component_types"><code class="docutils literal notranslate"><span class="pre">Reader.component_types</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.reader.Reader.get_characteristic_info"><code class="docutils literal notranslate"><span class="pre">Reader.get_characteristic_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.reader.Reader.read_library"><code class="docutils literal notranslate"><span class="pre">Reader.read_library()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.reader.Reader.simulation_contributors"><code class="docutils literal notranslate"><span class="pre">Reader.simulation_contributors</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metal-library-core-selector-module">metal_library.core.selector module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.selector.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.selector.Selector.find_closest"><code class="docutils literal notranslate"><span class="pre">Selector.find_closest()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.selector.Selector.get_characteristic_from_index"><code class="docutils literal notranslate"><span class="pre">Selector.get_characteristic_from_index()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.selector.Selector.get_geometry_from_index"><code class="docutils literal notranslate"><span class="pre">Selector.get_geometry_from_index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metal-library-core-sweeper-module">metal_library.core.sweeper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper.QSweeper"><code class="docutils literal notranslate"><span class="pre">QSweeper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.sweeper.QSweeper.run_multi_component_sweep"><code class="docutils literal notranslate"><span class="pre">QSweeper.run_multi_component_sweep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.sweeper.QSweeper.run_single_component_sweep"><code class="docutils literal notranslate"><span class="pre">QSweeper.run_single_component_sweep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#metal_library.core.sweeper.QSweeper.update_qcomponent"><code class="docutils literal notranslate"><span class="pre">QSweeper.update_qcomponent()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#metal-library-core-sweeper-helperfunctions-module">metal_library.core.sweeper_helperfunctions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper_helperfunctions.create_dict_list"><code class="docutils literal notranslate"><span class="pre">create_dict_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper_helperfunctions.extract_QSweep_parameters"><code class="docutils literal notranslate"><span class="pre">extract_QSweep_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper_helperfunctions.extract_parameters"><code class="docutils literal notranslate"><span class="pre">extract_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper_helperfunctions.extract_values"><code class="docutils literal notranslate"><span class="pre">extract_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metal_library.core.sweeper_helperfunctions.generate_combinations"><code class="docutils literal notranslate"><span class="pre">generate_combinations()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metal_library.library.TransmonCross.html">metal_library.library.TransmonCross package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metal_library.library.TransmonPocket.html">metal_library.library.TransmonPocket package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metal_library.library.html">metal_library.library package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metal_library.test.html">metal_library.test package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qc.html">qc module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">test module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SQuADDS: A validated design database and simulation workflow for superconducting qubit design</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="metal_library.html">metal_library package</a></li>
+      <li class="breadcrumb-item active">metal_library.core package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/metal_library.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="metal-library-core-package">
+<h1>metal_library.core package<a class="headerlink" href="#metal-library-core-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="metal-library-core-librarian-module">
+<h2>metal_library.core.librarian module<a class="headerlink" href="#metal-library-core-librarian-module" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-metal_library.core.librarian">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">metal_library.core.librarian.</span></span><span class="sig-name descname"><span class="pre">QLibrarian</span></span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is split into 3 sections
+1. Using presimulated data to make stuff.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>find_best_match</p></li>
+<li><p>export those options into a format compatiable w/ qcomponent.options</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><dl class="simple">
+<dt>Gathering data</dt><dd><ul class="simple">
+<li><p>Adding data from a sweep</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Remembering data</dt><dd><ul class="simple">
+<li><p>Reading and writing to permanent .csv</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.append_csv">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">append_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qoption_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian.append_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.append_csv" title="Link to this definition"></a></dt>
+<dd><p>Static verison of <cite>self.write_csv</cite></p>
+<dl class="simple">
+<dt>Usage: when you want to append one line of data at a time</dt><dd><p>to long term storage (.csv) located at <cite>filepath</cite></p>
+</dd>
+</dl>
+<p>Inputs:
+* qoption_data (pd.DataFrame)
+* simulation_data (pd.DataFrame)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.default_save_directory">
+<span class="sig-name descname"><span class="pre">default_save_directory</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'QubitPresimulated/draft_presimulated/'</span></em><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.default_save_directory" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.export_csv">
+<span class="sig-name descname"><span class="pre">export_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'a'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian.export_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.export_csv" title="Link to this definition"></a></dt>
+<dd><p>Write self.qoptions and self.simulations to .csv
+Defaults to ./draft_presimulated</p>
+<p>Puts an empty column inbetween the qoptions and simulations</p>
+<p>Inputs:
+* filepath (str)
+* mode (str, optional)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.extract_keysvalues">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_keysvalues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian.extract_keysvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.extract_keysvalues" title="Link to this definition"></a></dt>
+<dd><p>Helper method for self.from_dict
+Not used for front end.</p>
+<p>Inputs:
+* dictionary (dict)</p>
+<p>Output:
+* keys (list of strings) - names which will be assigned to pd.DataFrame</p>
+<blockquote>
+<div><p>columns. For every level into the nested list, names will be separated by a <cite>.</cite></p>
+</div></blockquote>
+<ul class="simple">
+<li><p>values (list of strings) - entries associated w/ each key in keys</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.from_dict">
+<span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Get data in the format of QComponent.options
+Append it to a pandas DataFrame</p>
+<p>Input:
+* dictionary
+* target_df (string) -</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>‘single_qoption’</p></li>
+<li><p>‘multi_qoption’</p></li>
+<li><p>‘simulation’</p></li>
+</ul>
+</div></blockquote>
+<p>Output:
+Appends dictionary to DataFrame.
+Columns are named after the keys of the dict. For nested dicts, keys are separated by <cite>.</cite>
+Entries below each column are associated w/ the deepest value of the nested dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.supported_datatypes">
+<span class="sig-name descname"><span class="pre">supported_datatypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['qoptions',</span> <span class="pre">'multi_qoption',</span> <span class="pre">'analysis_setup']</span></em><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.supported_datatypes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.librarian.QLibrarian.to_qoptions">
+<span class="sig-name descname"><span class="pre">to_qoptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/librarian.html#QLibrarian.to_qoptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.librarian.QLibrarian.to_qoptions" title="Link to this definition"></a></dt>
+<dd><p>Convert a row of self.qoptions to a nested dictionary in the format of QComponent.options</p>
+<p>Parameters:
+index (int): The index of the row to convert</p>
+<p>Returns:
+dictionary: A nested dictionary in the format of QComponent.options</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="metal-library-core-reader-module">
+<h2>metal_library.core.reader module<a class="headerlink" href="#metal-library-core-reader-module" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-metal_library.core.reader">
+<dt class="sig sig-object py" id="metal_library.core.reader.Reader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">metal_library.core.reader.</span></span><span class="sig-name descname"><span class="pre">Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/reader.html#Reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.reader.Reader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Designed to parse data from <cite>metal_library.library</cite></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="metal_library.core.reader.Reader.component_types">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">component_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#metal_library.core.reader.Reader.component_types" title="Link to this definition"></a></dt>
+<dd><p>Types of component combinations</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.reader.Reader.get_characteristic_info">
+<span class="sig-name descname"><span class="pre">get_characteristic_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/metal_library/core/reader.html#Reader.get_characteristic_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.reader.Reader.get_characteristic_info" title="Link to this definition"></a></dt>
+<dd><p>Get blurb about column names in the CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component_type</strong> (<em>str</em>) – Type of component. Choose from <cite>self.component_types</cite>.</p></li>
+<li><p><strong>display</strong> (<em>bool</em><em>, </em><em>optional</em>) – Prints out blirbs about component_type in a nice table.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Information of characteristics you can look at.</p>
+<p>Outputted data structure:
+[</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{</dt><dd><p>‘column_name’: (str) Characteristic’s name in CSV,
+‘blurb’: (str) Small blurb on what the characteristic is,
+‘units’: (str) Units,
+‘latex_symbol’: (str) Latex compatable symbolic representation of characteristic</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>]</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>component_characteristics (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.reader.Reader.read_library">
+<span class="sig-name descname"><span class="pre">read_library</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/metal_library/core/reader.html#Reader.read_library"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.reader.Reader.read_library" title="Link to this definition"></a></dt>
+<dd><p>Reads component in <cite>metal_library.library.component_name.component_type.csv</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component_type</strong> (<em>str</em>) – Type of component. Choose from <cite>self.component_types</cite>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>df (pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="metal_library.core.reader.Reader.simulation_contributors">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">simulation_contributors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#metal_library.core.reader.Reader.simulation_contributors" title="Link to this definition"></a></dt>
+<dd><p>List of all people who contributed to simulation data</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="metal-library-core-selector-module">
+<h2>metal_library.core.selector module<a class="headerlink" href="#metal-library-core-selector-module" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-metal_library.core.selector">
+<dt class="sig sig-object py" id="metal_library.core.selector.Selector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">metal_library.core.selector.</span></span><span class="sig-name descname"><span class="pre">Selector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/selector.html#Selector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.selector.Selector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.selector.Selector.find_closest">
+<span class="sig-name descname"><span class="pre">find_closest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_top</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Euclidean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/selector.html#Selector.find_closest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.selector.Selector.find_closest" title="Link to this definition"></a></dt>
+<dd><p>Main functionality. Select the closest presimulated geometry for a set of characteristics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_params</strong> (<em>dict</em>) – A dictionary where the keys are the column names in <cite>self.characteristic</cite>,
+and the values are the target values to compare against.</p></li>
+<li><p><strong>num_top</strong> (<em>int</em>) – The number of rows with the smallest Euclidean distances to return.</p></li>
+<li><p><strong>metric</strong> (<em>str</em><em>, </em><em>optional</em>) – Metric to determine closeness. Defaults to “Euclidean”.
+Must choose from <cite>self.__supported_metrics__</cite>.</p></li>
+<li><p><strong>display</strong> (<em>boo</em><em>, </em><em>optional</em>) – Print out results? Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Indexes of the ‘num_top’ rows with the smallest distances to the target parameters.
+best_characteristics (list[dict]): Associated characteristics. Ranked closest to furthest, same order as <cite>best_geometries</cite>
+best_geometries (list[dict]): Geometries in the style of QComponent.options. Ranked closest to furthest.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>indexes_smallest (pd.Index)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.selector.Selector.get_characteristic_from_index">
+<span class="sig-name descname"><span class="pre">get_characteristic_from_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/metal_library/core/selector.html#Selector.get_characteristic_from_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.selector.Selector.get_characteristic_from_index" title="Link to this definition"></a></dt>
+<dd><p>Get associated characteristics from index num.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Index of associated characteristic.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Associated dictionary for QComponent.options</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>options (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.selector.Selector.get_geometry_from_index">
+<span class="sig-name descname"><span class="pre">get_geometry_from_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/metal_library/core/selector.html#Selector.get_geometry_from_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.selector.Selector.get_geometry_from_index" title="Link to this definition"></a></dt>
+<dd><p>Get associated QComponent.options dictionary from index num.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<em>int</em>) – Index of associated geometry.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Associated dictionary for QComponent.options</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>options (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="metal-library-core-sweeper-module">
+<h2>metal_library.core.sweeper module<a class="headerlink" href="#metal-library-core-sweeper-module" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-metal_library.core.sweeper">
+<dt class="sig sig-object py" id="metal_library.core.sweeper.QSweeper">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper.</span></span><span class="sig-name descname"><span class="pre">QSweeper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">design</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper.html#QSweeper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper.QSweeper" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.sweeper.QSweeper.run_multi_component_sweep">
+<span class="sig-name descname"><span class="pre">run_multi_component_sweep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_analysis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">slice</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper.html#QSweeper.run_multi_component_sweep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper.QSweeper.run_multi_component_sweep" title="Link to this definition"></a></dt>
+<dd><p>Runs self.analysis.run_sweep() for all combinations of the options and values in the <cite>parameters</cite> dictionary.</p>
+<p>Inputs:
+* components_names (list[str]) - The name of the component to run the sweep on.
+* parameters (list[dict]) - A dictionary of options and their corresponding values.</p>
+<blockquote>
+<div><p>The keys are the options (strings), and the values are lists of floats.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>custom_analysis (func (QAnalysis) -&gt; dict, optional) - Create a custom analyzer to parse data</p></li>
+<li><dl class="simple">
+<dt>parameters_slice (slice, optional) - If sweep fails, tell it where to start again from. Defaults to all.</dt><dd><p>Example:
+slice(40,)</p>
+</dd>
+</dl>
+</li>
+<li><p>save_path (str, optional) - save data path associated from sweep</p></li>
+<li><p>kwargs - parameters associated w/ QAnalysis.run()</p></li>
+</ul>
+<p>Output:
+* Librarian (QLibrarian)-</p>
+<p>Example:
+If <cite>parameters = {‘cross_length’: [1, 2], ‘cross_gap’: [4, 5, 6]}</cite>, then this method will call
+<cite>self.analysis.()</cite> 6 times with the following arguments:
+1. cross_length: 1 cross_gap: 5
+2. cross_length: 1 cross_gap: 4
+3. cross_length: 1 cross_gap: 6
+4. cross_length: 2 cross_gap: 4
+5. cross_length: 2 cross_gap: 5
+6. cross_length: 2 cross_gap: 6</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.sweeper.QSweeper.run_single_component_sweep">
+<span class="sig-name descname"><span class="pre">run_single_component_sweep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_analysis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_slice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">slice</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper.html#QSweeper.run_single_component_sweep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper.QSweeper.run_single_component_sweep" title="Link to this definition"></a></dt>
+<dd><p>Runs self.analysis.run_sweep() for all combinations of the options and values in the <cite>parameters</cite> dictionary.</p>
+<p>Inputs:
+* component_name (str) - The name of the component to run the sweep on.
+* parameters (dict) - A dictionary of options and their corresponding values.</p>
+<blockquote>
+<div><p>The keys are the options (strings), and the values are lists of floats.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>custom_analysis (func (QAnalysis) -&gt; dict, optional) - Create a custom analyzer to parse data</p></li>
+<li><dl class="simple">
+<dt>parameters_slice (slice, optional) - If sweep fails, tell it where to start again from. Defaults to all.</dt><dd><p>Example:
+slice(40,)</p>
+</dd>
+</dl>
+</li>
+<li><p>save_path (str, optional) - save data path associated from sweep</p></li>
+<li><p>kwargs - parameters associated w/ QAnalysis.run()</p></li>
+</ul>
+<p>Output:
+* Librarian (QLibrarian)-</p>
+<p>Example:
+If <cite>parameters = {‘cross_length’: [1, 2], ‘cross_gap’: [4, 5, 6]}</cite>, then this method will call
+<cite>self.analysis.()</cite> 6 times with the following arguments:
+1. {cross_length: 1, cross_gap: 5}
+2. {cross_length: 1, cross_gap: 4}
+3. {cross_length: 1, cross_gap: 6}
+4. {cross_length: 2, cross_gap: 4}
+5. {cross_length: 2, cross_gap: 5}
+6. {cross_length: 2, cross_gap: 6}</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="metal_library.core.sweeper.QSweeper.update_qcomponent">
+<span class="sig-name descname"><span class="pre">update_qcomponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qcomponent_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper.html#QSweeper.update_qcomponent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper.QSweeper.update_qcomponent" title="Link to this definition"></a></dt>
+<dd><p>Given a qcomponent.options dictionary,
+Update it based on an input dictionary</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="metal-library-core-sweeper-helperfunctions-module">
+<h2>metal_library.core.sweeper_helperfunctions module<a class="headerlink" href="#metal-library-core-sweeper-helperfunctions-module" title="Link to this heading"></a></h2>
+<dl class="py function" id="module-metal_library.core.sweeper_helperfunctions">
+<dt class="sig sig-object py" id="metal_library.core.sweeper_helperfunctions.create_dict_list">
+<span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper_helperfunctions.</span></span><span class="sig-name descname"><span class="pre">create_dict_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper_helperfunctions.html#create_dict_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper_helperfunctions.create_dict_list" title="Link to this definition"></a></dt>
+<dd><p>‘
+Takes in a list of strings (keys) and a list of values,
+and returns a list of nested dictionaries where <cite>.</cite>
+in the string references the level of nesting.</p>
+<p>Input:
+* keys (list of strings) - A list of strings representing</p>
+<blockquote>
+<div><p>the keys for the dictionaries.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>values (list) - A list of values to be used as the</dt><dd><p>values for the dictionaries</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Output:
+* dict_list (list of nested dictionaries) - A list of</p>
+<blockquote>
+<div><p>nested dictionaries where each dictionary has the
+keys as its keys and the values as its values.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="metal_library.core.sweeper_helperfunctions.extract_QSweep_parameters">
+<span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper_helperfunctions.</span></span><span class="sig-name descname"><span class="pre">extract_QSweep_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/metal_library/core/sweeper_helperfunctions.html#extract_QSweep_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper_helperfunctions.extract_QSweep_parameters" title="Link to this definition"></a></dt>
+<dd><p>Input:
+* parameters (dict) - nested dictionary with a list</p>
+<blockquote>
+<div><p>at the end of the nest</p>
+</div></blockquote>
+<p>Output:
+* list_of_combos (list of dicts) - same nested structure</p>
+<blockquote>
+<div><p>as your input. But you’ll have each combination.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="metal_library.core.sweeper_helperfunctions.extract_parameters">
+<span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper_helperfunctions.</span></span><span class="sig-name descname"><span class="pre">extract_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper_helperfunctions.html#extract_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper_helperfunctions.extract_parameters" title="Link to this definition"></a></dt>
+<dd><p>Extract keys in nested dict, then separates these keys by a <cite>.</cite>
+For our purposes, gets the parameters of interest</p>
+<p>Input:
+* dictionary (dict)</p>
+<p>Output:
+* keys (list of string)</p>
+<p>Example:
+my_dict = {‘transmon1’: {‘cross_width’: ‘30um’,</p>
+<blockquote>
+<div><p>‘connection_pads’: {‘readout’: {‘pad_width’: ‘200um’}}}}</p>
+</div></blockquote>
+<p>print(extract_keys(my_dict))
+# prints: [‘transmon1.cross_width’, ‘transmon1.connection_pads.readout.pad_width’]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="metal_library.core.sweeper_helperfunctions.extract_values">
+<span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper_helperfunctions.</span></span><span class="sig-name descname"><span class="pre">extract_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper_helperfunctions.html#extract_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper_helperfunctions.extract_values" title="Link to this definition"></a></dt>
+<dd><p>Extract values in nested dict
+For our purposes, gets the initial guesses associated w/ self.parameters</p>
+<p>Input:
+* dictionary (dict)</p>
+<p>Output:
+* values (list of string)</p>
+<p>Example:
+my_dict = {‘transmon1’: {‘cross_width’: ‘30um’,</p>
+<blockquote>
+<div><p>‘connection_pads’: {‘readout’: {‘pad_width’: ‘200um’}}}}</p>
+</div></blockquote>
+<p>print(extract_values(my_dict))
+# prints: [‘30um’, ‘200um’]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="metal_library.core.sweeper_helperfunctions.generate_combinations">
+<span class="sig-prename descclassname"><span class="pre">metal_library.core.sweeper_helperfunctions.</span></span><span class="sig-name descname"><span class="pre">generate_combinations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lists</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/metal_library/core/sweeper_helperfunctions.html#generate_combinations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#metal_library.core.sweeper_helperfunctions.generate_combinations" title="Link to this definition"></a></dt>
+<dd><p>This function takes in a list of lists and returns a
+list of tuples that contain all possible combinations
+of the elements in the input lists.</p>
+<p>Input:
+* lists (list) - A list of lists containing elements</p>
+<blockquote>
+<div><p>that we want to generate combinations for.</p>
+</div></blockquote>
+<p>Output:
+* combination (list of tuples) - A list of tuples</p>
+<blockquote>
+<div><p>containing all possible combinations of the elements in the input lists.</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<span class="target" id="module-metal_library.core"></span></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="metal_library.html" class="btn btn-neutral float-left" title="metal_library package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="metal_library.library.html" class="btn btn-neutral float-right" title="metal_library.library package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sadman Ahmed Shanto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
