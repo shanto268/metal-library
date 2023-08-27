@@ -1,4 +1,3 @@
-
 # Qiskit Metal imports
 import qiskit_metal as metal
 from qiskit_metal import designs, draw
