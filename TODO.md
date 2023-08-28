@@ -30,7 +30,7 @@
 - [ ] clean install process write down
 - [ ] packagify
 - [ ] readme update
-- [ ] docsite update
+- [ ] docsite update + hosting
 
 
 # Backburner:

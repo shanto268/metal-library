@@ -383,3 +383,100 @@ class Selector:
         indexes_smallest =  distances.nsmallest(num_top).index
 
         return indexes_smallest
+
+
+    def get_interpolated_results(self,
+                     target_params: dict,
+                     num_top: int,
+                     metric: str = 'Euclidean',
+                     display: bool = True):
+        """
+        Main functionality. Select the closest presimulated geometry for a set of characteristics.
+        
+        Args:
+            target_params (dict): A dictionary where the keys are the column names in `self.characteristic`,
+                                  and the values are the target values to compare against.
+            num_top (int): The number of rows with the smallest metric distances to return.
+            metric (str, optional): The metric to use for the distance calculation. Defaults to 'Euclidean'.
+                                    Must choose from `self.__supported_metrics__`.
+            display (boo, optional): Print out results? Defaults to True.
+
+        Returns:
+            indexes_smallest (pd.Index): Indexes of the 'num_top' rows with the smallest distances to the target parameters.
+            best_characteristics (list[dict]): Associated characteristics. Ranked closest to furthest, same order as `best_geometries`
+            best_geometries (list[dict]): Geometries in the style of QComponent.options. Ranked closest to furthest.
+
+        """
+        ### Checks
+        # Check for supported metric
+        if metric not in self.__supported_metrics__:
+            raise ValueError(f'`metric` must be one of the following: {self.__supported_metrics__}')
+        # Check for improper size of library
+        if (num_top > len(self.characteristic)):
+            raise ValueError('`num_top` cannot be bigger than size of read-in library.')
+
+        # Choose from supported metrics, set it to var `find_index`
+        if (metric == 'Euclidean'):
+            find_index = self._find_index_Euclidean
+        elif (metric == 'Manhattan'):
+            find_index = self._find_index_Manhattan
+        elif (metric == 'Chebyshev'):
+            find_index = self._find_index_Chebyshev
+        elif (metric == 'Weighted Euclidean'):
+            find_index = self._find_index_Weighted_Euclidean
+        elif (metric == 'Custom'):
+            find_index = self._find_index_Custom_Metric
+
+        # 0. Extract qubit_params and resonator_params
+        qubit_params, resonator_params = target_params
+        f_r_target, linewidth_target = resonator_params  # unpack resonator parameters
+
+        # 1. Calculate qubit capacitance, coupling capacitance, and E_J
+        f_q, alpha_target, g_target = qubit_params  # unpack qubit parameters
+        E_J, C_q, C_c = self.calculate_qubit_parameters(f_q, alpha_target, g_target)
+
+        if E_J / (e**2 / (2 * C_q)) < 30:
+            warnings.warn("E_J/E_C < 30, the design may not be optimal.")
+
+        # 2. Search database for best matching qubit design
+        best_qubit_design = self.search_best_qubit_design(C_q, C_c, alpha_target, g_target, f_q, f_r_target, metric)
+
+        # 3. Scale qubit and coupling capacitor areas
+        alpha_simulated, g_simulated = best_qubit_design['Qubit_Anharmonicity_MHz'], best_qubit_design['Coupling_Strength_MHz']
+        scaling_factor_alpha = alpha_simulated / alpha_target
+        scaling_factor_g = g_target / g_simulated
+        best_qubit_design['C_q'] *= scaling_factor_alpha
+        best_qubit_design['C_c'] *= (scaling_factor_alpha * scaling_factor_g)
+
+        # 4. Search database for best matching resonator design
+        best_resonator_design = self.search_best_resonator_design(f_r_target, linewidth_target, metric)
+
+        # 5. Scale the resonator length and coupling element
+        best_resonator_design['length'] *= (best_resonator_design['Cavity_Frequency_GHz'] / f_r_target)
+        best_resonator_design['coupling_dim'] *= np.sqrt(linewidth_target / best_resonator_design['linewidth'])
+
+        # 6. Recalculate omega_r and rescale if necessary
+        C_r = best_resonator_design['C_r']
+        C_c = best_qubit_design['C_c']
+        L_r = best_resonator_design['L_r']
+        if C_c / C_r > 0.01:
+            omega_r_new = 1 / np.sqrt(L_r * (C_r + C_c))
+            f_r_new = omega_r_new / (2 * np.pi)
+            best_resonator_design['length'] *= (f_r_new / f_r_target)
+
+        # 7. Return interpolated design and closest pre-simulated designs
+        interpolated_design = {
+            'qubit': best_qubit_design,
+            'resonator': best_resonator_design
+        }
+
+        return interpolated_design
+
+    def calculate_qubit_parameters(self, f_q, alpha_target, g_target, f_r):
+        raise NotImplementedError()
+
+    def search_best_qubit_design(self, C_q, C_c, alpha_target, g_target, f_q, f_r_target, metric):
+        raise NotImplementedError()
+
+    def search_best_resonator_design(self, f_r_target, linewidth_target, metric):
+        raise NotImplementedError()
