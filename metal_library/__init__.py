@@ -29,3 +29,5 @@ from metal_library.core.librarian import QLibrarian
 from metal_library.core.sweeper import QSweeper
 
 from .components.qubitcavity import QubitCavity
+
+from .utils import fitTools
