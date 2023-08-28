@@ -2,6 +2,7 @@ from qiskit_metal import designs, MetalGUI, Dict
 from qiskit_metal.qlibrary.qubits.transmon_cross import TransmonCross
 from qiskit_metal.qlibrary.couplers.coupled_line_tee import CoupledLineTee
 from qiskit_metal.qlibrary.tlines.meandered import RouteMeander
+from metal_library import logging
 
 class QubitCavity:
     def __init__(self, design, options):
@@ -24,7 +25,7 @@ class QubitCavity:
         """
         qubit_options = self.options.get('qubit_options', {})
         if not qubit_options:
-            print("Warning: qubit_options is empty. Using default settings.")
+            logging.info("Warning: qubit_options is empty. Using default settings.")
         
         self.qubit = TransmonCross(self.design, 'Q1', options=qubit_options)
         
@@ -34,7 +35,7 @@ class QubitCavity:
         """
         coupler_options = self.options.get('cavity_options', {}).get('coupler_options', {})
         if not coupler_options:
-            print("Warning: coupler_options is empty. Using default settings.")
+            logging.info("Warning: coupler_options is empty. Using default settings.")
         
         self.feedline = CoupledLineTee(self.design, 'feedline', coupler_options)
         
@@ -44,6 +45,6 @@ class QubitCavity:
         """
         cpw_options = self.options.get('cavity_options', {}).get('cpw_options', {})
         if not cpw_options:
-            print("Warning: cpw_options is empty. Using default settings.")
+            logging.info("Warning: cpw_options is empty. Using default settings.")
         
         self.cavity = RouteMeander(self.design, 'cavity', options=cpw_options)
