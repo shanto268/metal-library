@@ -5,7 +5,7 @@
 - [x] test Weighted Euclidean and user custom metric
 - [x] test `QubitCavity.csv` data with `Reader` class
 - [x] implement selector search for QubitCavity
-- [ ] robust creation of `design` in metal including custom component
+- [ ] robust creation of `design` in metal including custom component using QubitCavity class
 - [ ] implement interpolated search feature
 - [ ] implement and document simulator functionality (https://github.com/clarkmiyamoto/TransmonCavitySim/blob/main/ansys_qiskitmetal.py)
 - [ ] implement and document .gds creation
