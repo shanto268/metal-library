@@ -14,6 +14,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
 
+      - name: Install Package
+        run: pip install .
+
       - name: Install Sphinx and Theme
         run: pip install sphinx sphinx_rtd_theme
 
