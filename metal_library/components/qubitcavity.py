@@ -72,20 +72,27 @@ class QubitCavity:
             print("Error: cpw_options['pin_inputs'] is missing essential attributes. Cavity will not be created.")
             return
     
-        start_component = cpw_options['pin_inputs']['start_pin'].get('component', 'Unknown')
-        end_component = cpw_options['pin_inputs']['end_pin'].get('component', 'Unknown')
+        # start_component = cpw_options['pin_inputs']['start_pin'].get('component', 'Unknown')
+        # end_component = cpw_options['pin_inputs']['end_pin'].get('component', 'Unknown')
     
-        print(f"Start component: {start_component}, End component: {end_component}")
+        # print(f"Start component: {start_component}, End component: {end_component}")
+        
+        if np.isnan(cpw_options['lead']['start_jogged_extension']):
+            cpw_options['lead']['start_jogged_extension'] = tuple()
+        if np.isnan(cpw_options['lead']['end_jogged_extension']):
+            cpw_options['lead']['end_jogged_extension'] = tuple()
+
+        
     
-        # Check for 'nan' or None in pin_inputs and fill in default values based on qubit and feedline names
-        if start_component in [None, 'nan', 'Unknown'] or end_component in [None, 'nan', 'Unknown']:
-            print("Warning: cpw_options['pin_inputs'] contains ambiguous values. Filling with current qubit and feedline.")
-            qubit_name = self.qubit.name
-            feedline_name = self.feedline.name
-            cpw_options['pin_inputs']['start_pin']['component'] = qubit_name
-            cpw_options['pin_inputs']['start_pin']['pin'] = 'readout'  # Replace with the correct pin name
-            cpw_options['pin_inputs']['end_pin']['component'] = feedline_name
-            cpw_options['pin_inputs']['end_pin']['pin'] = 'second_end'  # Replace with the correct pin name
+        # # Check for 'nan' or None in pin_inputs and fill in default values based on qubit and feedline names
+        # if start_component in [None, 'nan', 'Unknown'] or end_component in [None, 'nan', 'Unknown']:
+        #     print("Warning: cpw_options['pin_inputs'] contains ambiguous values. Filling with current qubit and feedline.")
+        qubit_name = self.qubit.name
+        feedline_name = self.feedline.name
+        cpw_options['pin_inputs']['start_pin']['component'] = qubit_name
+        cpw_options['pin_inputs']['start_pin']['pin'] = list(self.qubit.pin_names)[0]  
+        cpw_options['pin_inputs']['end_pin']['component'] = feedline_name
+        cpw_options['pin_inputs']['end_pin']['pin'] = 'second_end'  
         
         # Convert NumPy types to native Python types
         cpw_options = convert_numpy_to_python(cpw_options)
