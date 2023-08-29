@@ -5,18 +5,18 @@
 - [x] test Weighted Euclidean and user custom metric
 - [x] test `QubitCavity.csv` data with `Reader` class
 - [x] implement selector search for QubitCavity
-- [ ] robust creation of `design` in metal including custom component using QubitCavity class
 - [ ] implement interpolated search feature
-- [ ] implement and document simulator functionality (https://github.com/clarkmiyamoto/TransmonCavitySim/blob/main/ansys_qiskitmetal.py)
+- [ ] robust creation of `design` in metal including custom component using QubitCavity class
 - [ ] implement and document .gds creation
+- [ ] implement and document simulator functionalities (https://github.com/clarkmiyamoto/TransmonCavitySim/blob/main/ansys_qiskitmetal.py)
 - [ ] transition to a sql db from .csv
 - [ ] add contributer API info with push to `metadata.json`
 
 # Simulation work:
 
-- [ ] modular method to run scattering sim from `design` object recreated from QubitCavity.csv
+- [ ] run QubitOnly sweeps
+- [ ] run Scattering sims on QubitCavity sweeps
 - [ ] run QubitDriveline sweeps
-- [ ] run Scattering sims on QubitCavity
 - [ ] update QubitCavity metadata + selector functionality once kappa data is ready
 
 # Documentation work:
