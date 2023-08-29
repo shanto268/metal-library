@@ -24,6 +24,7 @@ from addict import Dict
 
 from metal_library.core.reader import Reader
 from metal_library.core.selector import Selector
+from metal_library.core.contribute import *
 
 from metal_library.core.librarian import QLibrarian
 from metal_library.core.sweeper import QSweeper

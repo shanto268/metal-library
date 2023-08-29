@@ -5,12 +5,13 @@
 - [x] test Weighted Euclidean and user custom metric
 - [x] test `QubitCavity.csv` data with `Reader` class
 - [x] implement selector search for QubitCavity
+- [ ] API for contributions added + tested + documented
+- [ ] db schema plan + implementation + compatibility with reader/selector code
+- [ ] csv to db entry code implementation
+- [ ] validated contributions to main db + contributor info to `metdata.json`
+- [ ] robust creation of `design` in metal including custom component and interdigitated capacitor using QubitCavity class
 - [ ] implement interpolated search feature
-- [ ] robust creation of `design` in metal including custom component using QubitCavity class
 - [ ] implement and document .gds creation
-- [ ] implement and document simulator functionalities (https://github.com/clarkmiyamoto/TransmonCavitySim/blob/main/ansys_qiskitmetal.py)
-- [ ] transition to a sql db from .csv
-- [ ] add contributer API info with push to `metadata.json`
 
 # Simulation work:
 
@@ -23,6 +24,8 @@
 
 - [x] add new metrics to the tutorial
 - [x] generate doc site
+- [ ] how to create .gds
+- [ ] how to simulate (qiskit metal links)
 - [ ] update the tutorial with weighted metric example provided by Eli for QubitCavity
 
 # Deployment work:
@@ -35,6 +38,7 @@
 
 # Backburner:
 
+- [ ] implement and document simulator functionalities (https://github.com/clarkmiyamoto/TransmonCavitySim/blob/main/ansys_qiskitmetal.py)
 - [ ] Sweeper code
 
 ---
