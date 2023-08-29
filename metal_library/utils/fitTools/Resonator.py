@@ -13,7 +13,7 @@ from .calibration import calibration
 
 from scipy.constants import hbar
 from scipy.signal import savgol_filter
-import numpy as np 
+import numpy as np
 import warnings
 import scipy.optimize as spopt
 
