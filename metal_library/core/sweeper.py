@@ -86,10 +86,10 @@ class QSweeper:
             
             if i == 0:
                 header_qoption = self.librarian.qoptions.columns.to_list()
-                header_simulation = self.librarian.simulation.columns.to_list()
+                header_simulation = self.librarian.simulations.columns.to_list()
 
-                header_qoption = pd.DataFrame(header_qoption, columns=header_qoption)
-                header_simulation = pd.DataFrame(header_simulation, columns=header_simulation)
+                header_qoption = pd.DataFrame([header_qoption], columns=header_qoption)
+                header_simulation = pd.DataFrame([header_simulation], columns=header_simulation)
                 QLibrarian.append_csv(header_qoption, header_simulation, filepath = save_path)
             
             QLibrarian.append_csv(newest_qoption, newest_simulation, filepath = save_path)
