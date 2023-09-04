@@ -1,0 +1,117 @@
+metal\_library.utils.fitTools package
+=====================================
+
+Submodules
+----------
+
+metal\_library.utils.fitTools.AnalysisFunctions module
+------------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.AnalysisFunctions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.Resonator module
+----------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.Resonator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.Resonator2 module
+-----------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.Resonator2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.Resonator\_old module
+---------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.Resonator_old
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.Resonator\_qiskit module
+------------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.Resonator_qiskit
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.calibration module
+------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.calibration
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.circlefit module
+----------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.circlefit
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.circuit\_old module
+-------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.circuit_old
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.plot\_functions module
+----------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.plot_functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.qpFunctions module
+------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.qpFunctions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.quasiparticleFunctions module
+-----------------------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.quasiparticleFunctions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.setup module
+------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.setup
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+metal\_library.utils.fitTools.utilities module
+----------------------------------------------
+
+.. automodule:: metal_library.utils.fitTools.utilities
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: metal_library.utils.fitTools
+   :members:
+   :undoc-members:
+   :show-inheritance:

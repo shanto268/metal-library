@@ -1,0 +1,29 @@
+metal\_library.utils package
+============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   metal_library.utils.fitTools
+
+Submodules
+----------
+
+metal\_library.utils.make\_templates module
+-------------------------------------------
+
+.. automodule:: metal_library.utils.make_templates
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: metal_library.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
